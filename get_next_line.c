@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 10:21:36 by clados-s          #+#    #+#             */
-/*   Updated: 2025/08/06 15:07:57 by clados-s         ###   ########.fr       */
+/*   Updated: 2025/08/07 16:02:56 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer;
-	char		*old_buf;
-	char		*temp;
+	static char	*rest;
+	char		*buffer;
+	char		*line;
 	
-	if (fd < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	old_buf = buffer;
-	temp = ft_strjoin(old_buf, buffer);
-	if (!temp)
-		return (NULL);	
+	buffer = (char *)malloc(BUFFER_SIZE + 1 * sizeof(char));
+	if (!buffer)
+		return (NULL);
+	
 }
