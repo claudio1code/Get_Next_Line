@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 10:21:54 by clados-s          #+#    #+#             */
-/*   Updated: 2025/08/07 16:03:57 by clados-s         ###   ########.fr       */
+/*   Updated: 2025/08/08 14:46:04 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,31 +17,30 @@ int	ft_strlen(char *str)
 	int	i;
 
 	i = 0;
-	while (*str)
+	while (str[i])
 		i++;
 	return (i);
 }
 
-char	*ft_strjoin_free(char *s1, char *s2)
+char	*ft_strjoin_free(char *rest, char *buffer)
 {
 	char	*new_str;
 	int		i;
 	int		j;
 	int		len;
 	
-	len = ft_strlen(s1) + ft_strlen(s2);
+	len = ft_strlen(rest) + ft_strlen(buffer);
 	new_str = malloc(len + 1 * sizeof(char));
 	if (!new_str)
 		return (0);
 	i = -1;
 	j = -1;
-	while (s1[i++])
-		new_str[i] = s1[i];
-	while (s2[j++])
-		new_str[i + j] = s2[j];
+	while (rest[i++])
+		new_str[i] = rest[i];
+	while (buffer[j++])
+		new_str[i + j] = buffer[j];
 	new_str[i + j] = '\0';
-	free(s1);
-	s1 = NULL;
+	free(rest);
 	return (new_str);
 }
 
@@ -76,7 +75,7 @@ char	*ft_strdup(char *str)
 
 char	*ft_substr(char *s, unsigned int start, size_t len)
 {
-	int		i;
+	size_t	i;
 	char	*sub;
 	size_t	cpy_len;
 	size_t	s_len;
@@ -93,9 +92,13 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	sub = (char *)malloc(cpy_len + 1);
 	if (!sub)
 		return (NULL);
-	i = -1;
-	while (++i < cpy_len)
+	i = 0;
+	while (i < cpy_len)
+	{
 		sub[i] = s[i + start];
+		i++;
+	}
 	sub[i] = '\0';
 	return (sub);
 }
+

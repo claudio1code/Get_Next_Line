@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 10:24:22 by clados-s          #+#    #+#             */
-/*   Updated: 2025/08/07 16:03:09 by clados-s         ###   ########.fr       */
+/*   Updated: 2025/08/08 16:01:00 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 
 # include<stdlib.h>
 # include<unistd.h>
+# include<fcntl.h>
+# include<stdio.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
@@ -23,8 +25,12 @@
 
 char	*get_next_line(int fd);
 int		ft_strlen(char *str);
-char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strjoin(char *rest, char *buffer);
 char	*ft_strdup(char *str);
 char	*ft_strchar(char *str, int c);
+char	*ft_substr(char *s, unsigned int start, size_t len);
+char	*ft_strjoin_free(char *rest, char *buffer);
+char	*updated_rest(char *rest);
+char	*get_line(char *rest);
 
 #endif
