@@ -5,101 +5,81 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/06 10:21:54 by clados-s          #+#    #+#             */
-/*   Updated: 2025/08/12 14:43:50 by clados-s         ###   ########.fr       */
+/*   Created: 2025/08/13 13:46:12 by clados-s          #+#    #+#             */
+/*   Updated: 2025/08/13 16:05:45 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i])
-		i++;
-	return (i);
-}
-
-char	*ft_strchar(char *s, int c)
-{
-	int	i;
-
-	if (!s || !s[0])
-		return (NULL);
-	i = 0;
-	while ((unsigned char)s[i] && (unsigned char)s[i] != (unsigned char)c)
-		i++;
-	if ((unsigned char)s[i] != (unsigned char)c)
-		return (NULL);
-	return ((char *)&s[i]);
-}
-
-char	*ft_strjoin(char *rest, char *buffer)
-{
-	char	*new_str;
-	int		i;
-	int		j;
-	int		len_new;
-	
-	len_new = ft_strlen(rest) + ft_strlen(buffer);
-	new_str = ft_calloc(sizeof(char), (len_new + 1));
-	if (!new_str)
-		return (NULL);
-	i = -1;
-	while (rest[++i])
-		new_str[i] = rest[i];
-	j = -1;
-	while (buffer[++j])
-		new_str[i + j] = buffer[j];
-	// printf("\n%s\n", new_str);
-	return (new_str);
-}
-// char	*ft_strdup(char *rest)
-// {
-// 	int		i;
-// 	char	*new_str;
-	
-// 	if (!rest)
-// 		return (NULL);
-// 	new_str = malloc(sizeof(char) * ft_strlen(rest) + 1);
-// 	if (!new_str)
-// 		return (NULL);
-// 	i = -1;
-// 	while (rest[++i])
-// 		new_str[i] = rest[i];
-// 	new_str[i] = '\0';
-// 	return (new_str);
-// }
-
 void	*ft_calloc(size_t nmemb, size_t size)
 {
 	void	*ptr;
-	size_t	tt_size;
+	size_t	total_size;
 
-	if (nmemb == 0 || size == 0)
-		ft_calloc(1,1);
+	if (nmemb == 0 && size == 0)
+		ptr = malloc(1 * 1);
 	if (nmemb && size && nmemb != (nmemb * size) / size)
 		return (NULL);
-	tt_size = nmemb * size;
-	ptr = malloc(sizeof(char) * tt_size);
+	total_size = nmemb * size;
+	ptr = malloc(sizeof(char) * total_size);
 	if (!ptr)
 		return (NULL);
 	ft_memset(ptr, 0, size);
 	return (ptr);
 }
 
-void	*ft_memset(void *s, int c, size_t n)
+char	*ft_memset(char *s, char c, size_t size)
 {
-	unsigned char	*ptr;
-	unsigned char	character;
-	
-	ptr = (unsigned char *)s;
-	character = (unsigned char)c;
-	while (n-- > 0)
-		*ptr++ = c;
+	while (size-- > 0)
+		*s++ = c;
 	return (s);
+}
+
+char	*ft_strchar(char *str, char c)
+{
+	int	i;
+
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (str[i] && str[i] != c)
+		i++;
+	if (str[i] && str[i] != c)
+		return (NULL);
+	return (&str[i]);
+}
+
+char	*ft_strjoin_and_free(char *rest, char *buffer)
+{
+	char	*new_str;
+	int		len_newstr;
+	int		i;
+	int		j;
+	
+	if (!rest && !buffer)
+		return (NULL);
+	len_newstr = ft_strlen(rest) + ft_strlen(buffer);
+	new_str = calloc(sizeof(char), len_newstr + 1);
+	i = -1;
+	while (rest[++i])
+		new_str[i] = rest[i];
+	free(rest);
+	j = -1;
+	while (buffer[++j])
+		new_str[j + i] = buffer[j];
+	free(buffer);
+	return (new_str);
+}
+
+int	ft_strlen(char *str)
+{
+	int	i;
+
+	if (!str)
+		return (0);
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
 }
