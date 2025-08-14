@@ -3,3 +3,6 @@ main.c
 *.out
 *.txt
 .vscode/
+.nfs00000000030016f1000005a5
+.nfs00000000030016f70000067b
+test.txt

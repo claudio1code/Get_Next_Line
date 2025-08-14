@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 13:46:12 by clados-s          #+#    #+#             */
-/*   Updated: 2025/08/13 16:05:45 by clados-s         ###   ########.fr       */
+/*   Updated: 2025/08/14 15:43:28 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,23 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	void	*ptr;
 	size_t	total_size;
 
-	if (nmemb == 0 && size == 0)
-		ptr = malloc(1 * 1);
 	if (nmemb && size && nmemb != (nmemb * size) / size)
 		return (NULL);
 	total_size = nmemb * size;
 	ptr = malloc(sizeof(char) * total_size);
 	if (!ptr)
 		return (NULL);
-	ft_memset(ptr, 0, size);
+	ft_memset(ptr, 0, total_size);
 	return (ptr);
 }
 
-char	*ft_memset(char *s, char c, size_t size)
+char	*ft_memset(void *s, char c, size_t size)
 {
+	unsigned char	*ptr;
+
+	ptr = (unsigned char *)s;
 	while (size-- > 0)
-		*s++ = c;
+		*ptr++ = c;
 	return (s);
 }
 
@@ -45,7 +46,7 @@ char	*ft_strchar(char *str, char c)
 	i = 0;
 	while (str[i] && str[i] != c)
 		i++;
-	if (str[i] && str[i] != c)
+	if (str[i] != c)
 		return (NULL);
 	return (&str[i]);
 }
@@ -56,7 +57,9 @@ char	*ft_strjoin_and_free(char *rest, char *buffer)
 	int		len_newstr;
 	int		i;
 	int		j;
-	
+
+	if (!rest)
+		rest = ft_calloc(sizeof(char), 1);
 	if (!rest && !buffer)
 		return (NULL);
 	len_newstr = ft_strlen(rest) + ft_strlen(buffer);
