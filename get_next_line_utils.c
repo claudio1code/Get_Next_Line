@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 13:46:12 by clados-s          #+#    #+#             */
-/*   Updated: 2025/08/14 15:43:28 by clados-s         ###   ########.fr       */
+/*   Updated: 2025/08/15 11:44:11 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	if (nmemb && size && nmemb != (nmemb * size) / size)
 		return (NULL);
 	total_size = nmemb * size;
-	ptr = malloc(sizeof(char) * total_size);
+	ptr = malloc(total_size);
 	if (!ptr)
 		return (NULL);
 	ft_memset(ptr, 0, total_size);
@@ -44,14 +44,16 @@ char	*ft_strchar(char *str, char c)
 	if (!str)
 		return (NULL);
 	i = 0;
-	while (str[i] && str[i] != c)
+	while (str[i])
+	{
+		if (str[i] == c)
+			return (&str[i]);
 		i++;
-	if (str[i] != c)
-		return (NULL);
-	return (&str[i]);
+	}
+	return (NULL);
 }
 
-char	*ft_strjoin_and_free(char *rest, char *buffer)
+char	*ft_strjoin_and_free_rest(char *rest, char *buffer)
 {
 	char	*new_str;
 	int		len_newstr;
@@ -60,18 +62,19 @@ char	*ft_strjoin_and_free(char *rest, char *buffer)
 
 	if (!rest)
 		rest = ft_calloc(sizeof(char), 1);
-	if (!rest && !buffer)
-		return (NULL);
+	if (!buffer)
+		return (rest);
 	len_newstr = ft_strlen(rest) + ft_strlen(buffer);
-	new_str = calloc(sizeof(char), len_newstr + 1);
+	new_str = ft_calloc(sizeof(char), len_newstr + 1);
+	if (!new_str)
+		return (free_null(rest));
 	i = -1;
 	while (rest[++i])
 		new_str[i] = rest[i];
-	free(rest);
 	j = -1;
 	while (buffer[++j])
 		new_str[j + i] = buffer[j];
-	free(buffer);
+	free(rest);
 	return (new_str);
 }
 
